@@ -6,7 +6,7 @@ end_date = "2022-03-31"
 
 #demographic variables by which code use is broken down
 #select from ["sex", "age_band", "region", "imd", "ethnicity", "learning_disability"]
-demographics = ["sex", "age_band", "region", "imd", "ethnicity", "learning_disability", "care_home_status"]
+demographics = ["sex", "age_band", "region", "imd", "ethnicity", "learning_disability", "care_home"]
 
 #name of measure
 marker="Asthma register"

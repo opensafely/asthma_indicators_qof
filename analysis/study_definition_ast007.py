@@ -55,7 +55,7 @@ study = StudyDefinition(
 
     # Asthma review occurring within the last 12 months
     ast_rev=patients.with_these_clinical_events(
-        codelist=rev_writ_codes,
+        codelist=rev_cod,
         between=[
             "first_day_of_month(index_date) - 11 months", "last_day_of_month(index_date)"],
         returning="binary_flag",
@@ -72,13 +72,8 @@ study = StudyDefinition(
     ast_writpastp=patients.with_these_clinical_events(
         codelist=writpastp_cod,
         between=["ast_rev_date - 1 day", "ast_rev_date"],
-        returning="date",
-        date_format="YYYY-MM-DD",
-        find_last_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2019-03-01", "latest": "index_date"},
-            "incidence": 0.9
-        },
+        returning="binary_flag",
+        return_expectations={"incidence": 0.10},
     ),
 
     # Asthma control assessment within 1 month of asthma review date
@@ -101,6 +96,7 @@ study = StudyDefinition(
     ast007_rule1=patients.satisfying(
         """
             ast_rev AND
+            ast_writpastp AND
             astcontass_dat AND
             astexac_dat
             """
@@ -116,8 +112,8 @@ study = StudyDefinition(
     # People for who Asthma quality indicator care was unsuitable in previous 12 months
     astpcapu=patients.with_these_clinical_events(
         codelist=astpcapu_cod,
-        between=[
-            "last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+        between=["last_day_of_month(index_date) - 365 days",
+                 "last_day_of_month(index_date)"],
         returning="binary_flag",
         return_expectations={"incidence": 0.10},
     ),
@@ -205,11 +201,17 @@ study = StudyDefinition(
     NOT astpcapu AND
     NOT astmondec AND
     NOT astpcadec AND
-    (astinvite_1 AND astinvite_2) AND
-    (ast_diag_max_4_months)
+    NOT astinvite_2 AND
+    ast_diag_max_4_months AND
+    NOT registered_3mo
     )
 
+    """
+    ),
 
+    ast007_num=patients.satisfying(
+        """
+    ast007_rule1
 
     """
     ),

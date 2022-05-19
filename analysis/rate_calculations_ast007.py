@@ -7,10 +7,11 @@ from config import demographics, codelist_path, vertical_lines
 from ebmdatalab import charts
 
 BASE_DIR = Path(__file__).parents[1]
-OUTPUT_DIR = BASE_DIR / "output/test"
+INPUT_DIR = BASE_DIR / "output/joined"
+OUTPUT_DIR = BASE_DIR / "output"
 
 #import measures
-from study_definition import measures
+from study_definition_ast007 import measures
 
 
 
@@ -24,7 +25,7 @@ print(measures_dict)
 
 for key, value in measures_dict.items():
     
-    df = pd.read_csv(os.path.join(OUTPUT_DIR, f'measure_ast007_test{value.id}.csv'), parse_dates=['date']).sort_values(by='date')
+    df = pd.read_csv(os.path.join(INPUT_DIR, f'measure_{value.id}.csv'), parse_dates=['date']).sort_values(by='date')
     df = drop_missing_demographics(df, value.group_by[0])
 
     # if key == "ethnicity_rate":

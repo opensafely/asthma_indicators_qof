@@ -226,9 +226,18 @@ study = StudyDefinition(
         },
     ),
 
-    ast_writpastp_last=patients.with_these_clinical_events(
+    ast_writpastp_last_sameday=patients.with_these_clinical_events(
         codelist=writpastp_cod,
         between=["ast_rev_last", "ast_rev_last"],
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.10
+        },
+    ),
+
+    ast_writpastp_last_oneday=patients.with_these_clinical_events(
+        codelist=writpastp_cod,
+        between=["ast_rev_last - 1 day", "ast_rev_last"],
         returning="binary_flag",
         return_expectations={
             "incidence": 0.10
@@ -329,8 +338,16 @@ measures = [
     ),
 
     Measure(
-        id="ast_writpastp_last_rate",
-        numerator="ast_writpastp_last",
+        id="ast_writpastp_last_oneday_rate",
+        numerator="ast_writpastp_last_oneday",
+        denominator="population",
+        group_by="population",
+        small_number_suppression=True
+    ),
+
+    Measure(
+        id="ast_writpastp_last_sameday_rate",
+        numerator="ast_writpastp_last_sameday",
         denominator="population",
         group_by="population",
         small_number_suppression=True

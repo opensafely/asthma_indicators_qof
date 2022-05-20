@@ -48,12 +48,12 @@ actions:
           plots: output/plot_*.png
           decile_chart: output/decile_chart.png
 
-  generate_notebook_ast007:
-    run: jupyter:latest jupyter nbconvert /workspace/analysis/qof_notebook_ast007.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-    needs: [calculate_rates_ast007]
-    outputs:
-      moderately_sensitive:
-        notebook: output/qof_notebook_ast007.html
+  # generate_notebook_ast007:
+  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/qof_notebook_ast007.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
+  #   needs: [calculate_rates_ast007]
+  #   outputs:
+  #     moderately_sensitive:
+  #       notebook: output/qof_notebook_ast007.html
 
 
 # Testing Asthma variables
@@ -76,11 +76,11 @@ actions:
           measure_csv: output/test/measure_*_rate.csv
   
  # Check with separate analysis script 
-  check_data:
-    run: r:latest analysis/indicator_dates_testing.py
-    outputs:
-      moderately_sensitive:
-        table_csv: output/test/test.csv
+  # check_data:
+  #   run: r:latest analysis/indicator_dates_testing.py
+  #   outputs:
+  #     moderately_sensitive:
+  #       table_csv: output/test/test.csv
       
 
 

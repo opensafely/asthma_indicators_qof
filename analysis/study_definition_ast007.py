@@ -34,9 +34,9 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
     },
-        #Include Asthma register variables
+    # Include Asthma register variables
     **ast_reg_variables,
-        # Include demographic variables
+    # Include demographic variables
     **demographic_variables,
 
     population=patients.satisfying(
@@ -102,8 +102,6 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.10},
         ),
     ),
-
-    # rev_dat count
 
 
     ##############################
@@ -171,7 +169,7 @@ study = StudyDefinition(
 
     # Exclude people who were diagnosed with asthma in the last 3 months
 
-    ast_diag_max_4_months=patients.with_these_clinical_events(
+    ast_diag_before_3_months=patients.with_these_clinical_events(
         ast_cod,
         on_or_before="first_day_of_month(index_date) - 2 months",
         returning='binary_flag',
@@ -198,13 +196,15 @@ study = StudyDefinition(
 
     OR
 
-    (
-    NOT astpcapu AND
-    NOT astmondec AND
-    NOT astpcadec AND
-    NOT astinvite_2 AND
-    ast_diag_max_4_months AND
-    NOT registered_3mo
+    (    
+        (
+        NOT astpcapu OR
+        NOT astmondec OR
+        NOT astpcadec OR
+        NOT astinvite_2 OR
+        NOT registered_3mo
+        )
+        AND ast_diag_before_3_months
     )
 
     """
@@ -230,13 +230,14 @@ measures = [
         small_number_suppression=True
     ),
 
-    # Measure(
-    #     id="event_code_rate",
-    #     numerator="asthma",
-    #     denominator="population",
-    #     group_by=["event_code"],
-    #     small_number_suppression=True
-    # ),
+    Measure(
+        id="test_rate",
+        numerator="registered_3mo",
+        denominator="ast007_denom",
+        group_by="population",
+        small_number_suppression=True
+    ),
+
 
     Measure(
         id="practice_rate",

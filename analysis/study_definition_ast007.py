@@ -34,6 +34,11 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
     },
+        #Include Asthma register variables
+    **ast_reg_variables,
+        # Include demographic variables
+    **demographic_variables,
+
     population=patients.satisfying(
         """
         # Define general population parameters
@@ -45,8 +50,6 @@ study = StudyDefinition(
         """,
     ),
 
-    # Include demographic variables
-    **demographic_variables,
 
 
     ##############################

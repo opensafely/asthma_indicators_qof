@@ -34,20 +34,22 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
     },
+        #Include Asthma register variables
+    **ast_reg_variables,
+        # Include demographic variables
+    **demographic_variables,
+
     population=patients.satisfying(
         """
         # Define general population parameters
         (NOT died) AND
         # Define GMS registration status
         gms_reg_status AND
-        # Asthma list size age restriction
-        age >= 6
+        # Asthma register
+        asthma
         """,
     ),
-    # Include asthma variables
-    **ast_reg_variables,
-    # Include demographic variables
-    **demographic_variables,
+
 
 
     ##############################

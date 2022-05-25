@@ -53,45 +53,6 @@ study = StudyDefinition(
     ##############################
     # Rule 1
 
-    # Asthma review occurring within the last 12 months
-    ast_rev=patients.with_these_clinical_events(
-        codelist=rev_cod,
-        between=[
-            "first_day_of_month(index_date) - 11 months", "last_day_of_month(index_date)"],
-        returning="binary_flag",
-        include_date_of_match=True,
-        date_format="YYYY-MM-DD",
-        find_last_match_in_period=True,
-        return_expectations={
-            "date": {"earliest": "2019-03-01", "latest": "index_date"},
-            "incidence": 0.9
-        },
-    ),
-
-    # Asthma written personalised asthma plan  on the same day and within the last 12 months
-    ast_writpastp=patients.with_these_clinical_events(
-        codelist=writpastp_cod,
-        between=["ast_rev_date - 1 day", "ast_rev_date"],
-        returning="binary_flag",
-        return_expectations={"incidence": 0.10},
-    ),
-
-    # Asthma control assessment within 1 month of asthma review date
-    astcontass_dat=patients.with_these_clinical_events(
-        codelist=astcontass_cod,
-        between=["ast_rev_date -  1 month", "ast_rev_date"],
-        returning="binary_flag",
-        return_expectations={"incidence": 0.10},
-    ),
-
-    # Asthma exacerbations recorded within 1 month of asthma review date
-    astexac_dat=patients.with_these_clinical_events(
-        codelist=astexacb_cod,
-        between=["ast_rev_date - 1 month", "ast_rev_date"],
-        returning="binary_flag",
-        return_expectations={"incidence": 0.10},
-    ),
-
     # Rule 1 logic
     ast007_rule1=patients.satisfying(
         """
@@ -99,7 +60,45 @@ study = StudyDefinition(
             ast_writpastp AND
             astcontass_dat AND
             astexac_dat
-            """
+            """,
+        # Asthma review occurring within the last 12 months
+        ast_rev=patients.with_these_clinical_events(
+            codelist=rev_cod,
+            between=[
+                "first_day_of_month(index_date) - 11 months", "last_day_of_month(index_date)"],
+            returning="binary_flag",
+            include_date_of_match=True,
+            date_format="YYYY-MM-DD",
+            find_last_match_in_period=True,
+            return_expectations={
+                "date": {"earliest": "2019-03-01", "latest": "index_date"},
+                "incidence": 0.9
+            },
+        ),
+
+        # Asthma written personalised asthma plan  on the same day and within the last 12 months
+        ast_writpastp=patients.with_these_clinical_events(
+            codelist=writpastp_cod,
+            between=["ast_rev_date - 1 day", "ast_rev_date"],
+            returning="binary_flag",
+            return_expectations={"incidence": 0.10},
+        ),
+
+        # Asthma control assessment within 1 month of asthma review date
+        astcontass_dat=patients.with_these_clinical_events(
+            codelist=astcontass_cod,
+            between=["ast_rev_date -  1 month", "ast_rev_date"],
+            returning="binary_flag",
+            return_expectations={"incidence": 0.10},
+        ),
+
+        # Asthma exacerbations recorded within 1 month of asthma review date
+        astexac_dat=patients.with_these_clinical_events(
+            codelist=astexacb_cod,
+            between=["ast_rev_date - 1 month", "ast_rev_date"],
+            returning="binary_flag",
+            return_expectations={"incidence": 0.10},
+        ),
     ),
 
     # rev_dat count

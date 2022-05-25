@@ -44,8 +44,7 @@ study = StudyDefinition(
         asthma
         """,
     ),
-    # Include asthma variables
-    **ast_reg_variables,
+
     # Include demographic variables
     **demographic_variables,
 

@@ -224,9 +224,9 @@ measures = [
 
     Measure(
         id="event_rate",
-        numerator="asthma",
-        denominator="population",
-        group_by="population",
+        numerator="ast007_num",
+        denominator="ast007_denom",
+        group_by="ast007_denom",
         small_number_suppression=True
     ),
 
@@ -240,8 +240,8 @@ measures = [
 
     Measure(
         id="practice_rate",
-        numerator="asthma",
-        denominator="population",
+        numerator="ast007_num",
+        denominator="ast007_denom",
         group_by=["practice"],
         small_number_suppression=True,
     ),
@@ -263,8 +263,8 @@ for d in demographics:
 
     m = Measure(
         id=f'{d}_rate',
-        numerator="asthma",
-        denominator="population",
+        numerator="ast007_num",
+        denominator="ast007_denom",
         group_by=[d],
         small_number_suppression=True
     )

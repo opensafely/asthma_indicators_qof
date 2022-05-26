@@ -109,67 +109,89 @@ study = StudyDefinition(
     # Rule 2
 
     # People for who Asthma quality indicator care was unsuitable in previous 12 months
-    astpcapu=patients.with_these_clinical_events(
-        codelist=astpcapu_cod,
-        between=["last_day_of_month(index_date) - 365 days",
-                 "last_day_of_month(index_date)"],
-        returning="binary_flag",
-        return_expectations={"incidence": 0.10},
+    denom_rule2=patients.satisfying(
+        """
+        NOT astpcapu
+        """,
+        astpcapu=patients.with_these_clinical_events(
+            codelist=astpcapu_cod,
+            between=["last_day_of_month(index_date) - 365 days",
+                     "last_day_of_month(index_date)"],
+            returning="binary_flag",
+            return_expectations={"incidence": 0.10},
+        ),
     ),
+
     ##############################
 
     # Rule 3
 
     # People who chose not to receive asthma monitoring in previous 12 months
-    astmondec=patients.with_these_clinical_events(
-        codelist=astmondec_cod,
-        between=[
-            "last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
-        returning="binary_flag",
-        return_expectations={"incidence": 0.10},
+    denom_rule3=patients.satisfying(
+        """
+        NOT astmondec
+        """,
+        astmondec=patients.with_these_clinical_events(
+            codelist=astmondec_cod,
+            between=[
+                "last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning="binary_flag",
+            return_expectations={"incidence": 0.10},
+        ),
     ),
+
     ##############################
 
     # Rule 4
 
     # People who chose not to receive asthma quality indicator care in previous 12 months
-    astpcadec=patients.with_these_clinical_events(
-        codelist=astpcadec_cod,
-        between=[
-            "last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
-        returning="binary_flag",
-        return_expectations={"incidence": 0.10},
+    denom_rule4=patients.satisfying(
+        """
+        NOT astpcadec
+        """,
+        astpcadec=patients.with_these_clinical_events(
+            codelist=astpcadec_cod,
+            between=[
+                "last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning="binary_flag",
+            return_expectations={"incidence": 0.10},
+        ),
     ),
     ##############################
 
     # Rule 5
 
-    #     # Latest asthma invite date
-    astinvite_1=patients.with_these_clinical_events(
-        codelist=astinvite_cod,
-        returning="binary_flag",
-        find_last_match_in_period=True,
-        on_or_before="last_day_of_month(index_date)",
-        include_date_of_match=True,
-        date_format="YYYY-MM-DD",
+    denom_rule5=patients.satisfying(
+        """
+        NOT astinvite_2
+        """,
+        # Latest asthma invite date
+        astinvite_1=patients.with_these_clinical_events(
+            codelist=astinvite_cod,
+            returning="binary_flag",
+            find_last_match_in_period=True,
+            on_or_before="last_day_of_month(index_date)",
+            include_date_of_match=True,
+            date_format="YYYY-MM-DD",
+        ),
+        # Latest asthma invite date 7 days before the last one
+        astinvite_2=patients.with_these_clinical_events(
+            codelist=astinvite_cod,
+            returning="binary_flag",
+            find_last_match_in_period=True,
+            between=[
+                "astinvite_1_date + 6 days",
+                "last_day_of_month(index_date)",
+            ],
+        ),
     ),
-    # Latest asthma invite date 7 days before the last one
-    astinvite_2=patients.with_these_clinical_events(
-        codelist=astinvite_cod,
-        returning="binary_flag",
-        find_last_match_in_period=True,
-        between=[
-            "astinvite_1_date + 6 days",
-            "last_day_of_month(index_date)",
-        ],
-    ),
+
     ##############################
 
     # Rule 6
 
     # Exclude people who were diagnosed with asthma in the last 3 months
-
-    ast_diag_before_3_months=patients.with_these_clinical_events(
+    denom_rule6=patients.with_these_clinical_events(
         ast_cod,
         on_or_before="first_day_of_month(index_date) - 2 months",
         returning='binary_flag',
@@ -182,7 +204,7 @@ study = StudyDefinition(
     # Reject patients passed to this rule who registered with the GP practice
     # in the 3 month period leading up to and including the payment period end
     # date. Select the remaining patients.
-    registered_3mo=patients.registered_with_one_practice_between(
+    denom_rule7=patients.registered_with_one_practice_between(
         start_date="first_day_of_month(index_date) - 2 months",
         end_date="last_day_of_month(index_date)",
         return_expectations={"incidence": 0.1},
@@ -195,17 +217,14 @@ study = StudyDefinition(
     ast007_rule1
 
     OR
-
-    (    
         (
-        NOT astpcapu OR
-        NOT astmondec OR
-        NOT astpcadec OR
-        NOT astinvite_2 OR
-        NOT registered_3mo
+        denom_rule2 AND
+        denom_rule3 AND
+        denom_rule4 AND
+        denom_rule5 AND
+        denom_rule6 AND
+        denom_rule7
         )
-        AND ast_diag_before_3_months
-    )
 
     """
     ),
@@ -232,7 +251,7 @@ measures = [
 
     Measure(
         id="test_rate",
-        numerator="registered_3mo",
+        numerator="denom_rule7",
         denominator="ast007_denom",
         group_by="population",
         small_number_suppression=True

@@ -73,7 +73,7 @@ study = StudyDefinition(
             date_format="YYYY-MM-DD",
             find_last_match_in_period=True,
             return_expectations={
-                "date": {"earliest": "2019-03-01", "latest": "index_date"},
+                "date": {"earliest": "2018-03-01", "latest": "index_date"},
                 "incidence": 0.9
             },
         ),

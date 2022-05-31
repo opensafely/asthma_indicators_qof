@@ -253,7 +253,7 @@ measures = [
 
     Measure(
         id="test_rate",
-        numerator="denom_rule7",
+        numerator="denom_rule6",
         denominator="ast007_denom",
         group_by="population",
         small_number_suppression=True

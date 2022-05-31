@@ -252,13 +252,36 @@ measures = [
     ),
 
     Measure(
-        id="test_rate",
-        numerator="denom_rule6",
+        id="test_ast_rev_rate",
+        numerator="ast_rev",
         denominator="ast007_denom",
         group_by="population",
         small_number_suppression=True
     ),
 
+    Measure(
+        id="test_ast_writpastp_rate",
+        numerator="ast_writpastp",
+        denominator="ast007_denom",
+        group_by="population",
+        small_number_suppression=True
+    ),
+
+    Measure(
+        id="test_astcontass_dat_rate",
+        numerator="astcontass_dat",
+        denominator="ast007_denom",
+        group_by="population",
+        small_number_suppression=True
+    ),
+
+    Measure(
+        id="test_astexac_dat_rate",
+        numerator="astexac_dat",
+        denominator="ast007_denom",
+        group_by="population",
+        small_number_suppression=True
+    ),
 
     Measure(
         id="practice_rate",

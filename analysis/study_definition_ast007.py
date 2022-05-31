@@ -56,13 +56,6 @@ study = StudyDefinition(
     # Rule 1
 
     # Rule 1 logic
-    ast007_rule1=patients.satisfying(
-        """
-            ast_rev AND
-            ast_writpastp AND
-            astcontass_dat AND
-            astexac_dat
-            """,
         # Asthma review occurring within the last 12 months
         ast_rev=patients.with_these_clinical_events(
             codelist=rev_cod,
@@ -101,6 +94,15 @@ study = StudyDefinition(
             returning="binary_flag",
             return_expectations={"incidence": 0.10},
         ),
+    
+    ast007_rule1=patients.satisfying(
+        """
+            ast_rev AND
+            ast_writpastp AND
+            astcontass_dat AND
+            astexac_dat
+            """,
+
     ),
 
 

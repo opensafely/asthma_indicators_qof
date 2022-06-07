@@ -45,6 +45,8 @@ study = StudyDefinition(
         (NOT died) AND
         # Define GMS registration status
         gms_reg_status AND
+        # Sex only valid values
+        (sex = 'M' OR sex = 'F') AND
         # Asthma register
         asthma
         """,
@@ -248,7 +250,7 @@ measures = [
         numerator="ast007_num",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=False
+        small_number_suppression=True
     ),
 
     Measure(
@@ -256,7 +258,7 @@ measures = [
         numerator="ast_rev",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=False
+        small_number_suppression=True
     ),
 
     Measure(
@@ -264,7 +266,7 @@ measures = [
         numerator="ast_writpastp",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=False
+        small_number_suppression=True
     ),
 
     Measure(
@@ -272,7 +274,7 @@ measures = [
         numerator="astcontass_dat",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=False
+        small_number_suppression=True
     ),
 
     Measure(
@@ -280,7 +282,7 @@ measures = [
         numerator="astexac_dat",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=False
+        small_number_suppression=True
     ),
 
     Measure(
@@ -288,7 +290,7 @@ measures = [
         numerator="ast007_num",
         denominator="ast007_denom",
         group_by=["practice"],
-        small_number_suppression=False,
+        small_number_suppression=True,
     ),
 
 
@@ -311,7 +313,7 @@ for d in demographics:
         numerator="ast007_num",
         denominator="ast007_denom",
         group_by=[d],
-        small_number_suppression=False
+        small_number_suppression=True
     )
 
     measures.append(m)

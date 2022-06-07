@@ -44,14 +44,14 @@ actions:
         moderately_sensitive:
           measure_csv: output/joined/measure_*_rate.csv
 
-  # calculate_rates_ast007:
-  #     run: python:latest python analysis/rate_calculations_ast007.py
-  #     needs: [join_ethnicity_ast_reg, generate_measures_ast007]
-  #     outputs:
-  #       moderately_sensitive:
-  #         tables: output/rate_table_*.csv
-  #         plots: output/plot_*.png
-  #         decile_chart: output/decile_chart.png
+  calculate_rates_ast007:
+      run: python:latest python analysis/rate_calculations_ast007.py
+      needs: [join_ethnicity_ast_reg, generate_measures_ast007]
+      outputs:
+        moderately_sensitive:
+          tables: output/rate_table_*.csv
+          plots: output/plot_*.png
+          decile_chart: output/decile_chart.png
 
   # generate_notebook_ast007:
   #   run: jupyter:latest jupyter nbconvert /workspace/analysis/qof_notebook_ast007.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input

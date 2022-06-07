@@ -248,7 +248,7 @@ measures = [
         numerator="ast007_num",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=True
+        small_number_suppression=False
     ),
 
     Measure(
@@ -256,7 +256,7 @@ measures = [
         numerator="ast_rev",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=True
+        small_number_suppression=False
     ),
 
     Measure(
@@ -264,7 +264,7 @@ measures = [
         numerator="ast_writpastp",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=True
+        small_number_suppression=False
     ),
 
     Measure(
@@ -272,7 +272,7 @@ measures = [
         numerator="astcontass_dat",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=True
+        small_number_suppression=False
     ),
 
     Measure(
@@ -280,7 +280,7 @@ measures = [
         numerator="astexac_dat",
         denominator="ast007_denom",
         group_by="population",
-        small_number_suppression=True
+        small_number_suppression=False
     ),
 
     Measure(
@@ -288,7 +288,7 @@ measures = [
         numerator="ast007_num",
         denominator="ast007_denom",
         group_by=["practice"],
-        small_number_suppression=True,
+        small_number_suppression=False,
     ),
 
 
@@ -311,7 +311,7 @@ for d in demographics:
         numerator="ast007_num",
         denominator="ast007_denom",
         group_by=[d],
-        small_number_suppression=True
+        small_number_suppression=False
     )
 
     measures.append(m)

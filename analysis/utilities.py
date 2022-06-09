@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -9,59 +10,62 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parents[1]
 OUTPUT_DIR = BASE_DIR / "output"
 
+
 def redact_small_numbers(df, n, numerator, denominator, rate_column):
     """Takes counts df as input and suppresses low numbers.  Sequentially redacts
     low numbers from numerator and denominator until count of redcted values >=n.
     Rates corresponding to redacted values are also redacted.
-    
+
     Args:
         df: measures dataframe
         n: threshold for low number suppression
         numerator: column name for numerator
         denominator: column name for denominator
         rate_column: column name for rate
-    
+
     Returns:
         Input dataframe with low numbers suppressed
     """
-    
-    def suppress_column(column):    
-        suppressed_count = column[column<=n].sum()
-        
-        #if 0 dont need to suppress anything
+
+    def suppress_column(column):
+        suppressed_count = column[column <= n].sum()
+
+        # if 0 dont need to suppress anything
         if suppressed_count == 0:
             pass
-        
-        else:
-            column = column.replace([0, 1, 2, 3, 4, 5],np.nan)
-            
 
-            while suppressed_count <=n:
+        else:
+            column = column.replace([0, 1, 2, 3, 4, 5], np.nan)
+
+            while suppressed_count <= n:
                 suppressed_count += column.min()
-                column.iloc[column.idxmin()] = np.nan   
+                column.iloc[column.idxmin()] = np.nan
         return column
-    
-    
+
     for column in [numerator, denominator]:
         df[column] = suppress_column(df[column])
-    
-    df.loc[(df[numerator].isna())| (df[denominator].isna()), rate_column] = np.nan
-    
-    return df    
+
+    df.loc[(df[numerator].isna()) | (
+        df[denominator].isna()), rate_column] = np.nan
+
+    return df
+
 
 def convert_ethnicity(df):
     """Converts the ethnicity of a dataframe from int to an understandable string.
-    
+
     Args:
         df: dataframe with ethnicity column
-    
+
     Returns:
         Input dataframe with converted ethnicity column
     """
-    ethnicity_codes = {1.0: "White", 2.0: "Mixed", 3.0: "Asian", 4.0: "Black", 5.0:"Other", np.nan: "unknown", 0: "unknown"}
+    ethnicity_codes = {1.0: "White", 2.0: "Mixed", 3.0: "Asian",
+                       4.0: "Black", 5.0: "Other", np.nan: "unknown", 0: "unknown"}
     df = df.replace({"ethnicity": ethnicity_codes})
 
     return df
+
 
 def convert_binary(df, binary_column, positive, negative):
     """Converts a column with binary variable codes as 0 and 1 to understandable strings.
@@ -79,6 +83,7 @@ def convert_binary(df, binary_column, positive, negative):
     df[binary_column] = df[binary_column].replace(replace_dict)
     return df
 
+
 def drop_missing_demographics(df, demographic):
     """Drops any rows with missing values for a given demographic variable.
 
@@ -89,26 +94,28 @@ def drop_missing_demographics(df, demographic):
     Returns:
         Dataframe with no rows missing demographic variable.
     """
-    return df.loc[df[demographic].notnull(),:]
+    return df.loc[df[demographic].notnull(), :]
+
 
 def calculate_rate(df, numerator, denominator, rate_per=100):
     """Creates a rate column for a dataframe with a numerator and denominator column.
-    
+
     Args:
         df: measures dataframe
         numerator: numerator for rate
         denominator: denominator for rate
         rate_per: unit for calculated rate
-    
+
     Returns:
         Input dataframe with additional rate column
     """
 
     rate = df[numerator]/(df[denominator]/rate_per)
     df['rate'] = rate
-    
+
     return df
-        
+
+
 def drop_irrelevant_practices(df, practice_col):
     """Drops irrelevant practices from the given measure table.
     An irrelevant practice has zero events during the study period.
@@ -125,7 +132,6 @@ def drop_irrelevant_practices(df, practice_col):
 def create_child_table(
     df, code_df, code_column, term_column, nrows=5
 ):
-
     """
     Args:
         df: A measure table.
@@ -137,19 +143,19 @@ def create_child_table(
     Returns:
         A table of the top `nrows` codes.
     """
- 
+
     event_counts = (
         df.groupby("event_code")["ast_population"]
-        .sum()  # We can't use .count() because the measure column contains zeros.
+        # We can't use .count() because the measure column contains zeros.
+        .sum()
         .rename_axis(code_column)
         .rename("Events")
         .reset_index()
         .sort_values("Events", ascending=False)
     )
 
-    
     event_counts["Events (thousands)"] = event_counts["Events"] / 1000
-       
+
     # Gets the human-friendly description of the code for the given row
     # e.g. "Systolic blood pressure".
     code_df = code_df.set_index(code_column).rename(
@@ -159,13 +165,13 @@ def create_child_table(
         event_counts.set_index(code_column).join(code_df).reset_index()
     )
 
-    
     # Cast the code to an integer.
     event_counts[code_column] = event_counts[code_column].astype(int)
-    
+
     # return top n rows
-    
+
     return event_counts.iloc[:nrows, :]
+
 
 def get_number_practices(df):
     """Gets the number of practices in the given measure table.
@@ -189,12 +195,13 @@ def get_percentage_practices(measure_table):
             practice_df_list.append(df)
 
     total_practices_df = pd.concat(practice_df_list, axis=0)
-    num_practices_total= get_number_practices(total_practices_df)
+    num_practices_total = get_number_practices(total_practices_df)
 
     # Get number of practices in measure
     num_practices_in_study = get_number_practices(measure_table)
 
     return np.round((num_practices_in_study / num_practices_total) * 100, 2)
+
 
 def add_date_lines(plt, vlines):
     # TODO: Check that it is within the range?
@@ -266,9 +273,9 @@ def plot_measures(
 
     myFmt = mdates.DateFormatter('%b-%Y')
     plt.gca().xaxis.set_major_formatter(myFmt)
-    
-    plt.xticks(rotation = 45)
-   
+
+    plt.xticks(rotation=45)
+
     add_date_lines(plt, vlines)
 
     if category:
@@ -281,3 +288,10 @@ def plot_measures(
     plt.savefig(OUTPUT_DIR / filename)
     plt.clf()
 
+
+def combined_results_read():
+    df = pd.read_csv(os.path.join(OUTPUT_DIR,
+                                  f"/combined_results.csv"),
+                     index_col=["attribute", "category"],
+                     )
+    return df

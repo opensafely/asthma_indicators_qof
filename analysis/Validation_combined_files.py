@@ -2,7 +2,8 @@
 import pandas as pd
 import os
 import glob
-os.chdir("C:/Users/higginsr/Documents/Asthma SRO work/Combined QOF achievement/Raw")
+#update directory
+os.chdir("C:/Users/*/Documents/Asthma SRO work/Combined QOF achievement/Raw")
 
 #Create list of filenames to be appended
 extension = 'csv'
@@ -19,8 +20,8 @@ totals_frame.columns=['Year','Indicator_code','Measure','Value']
 ##denom=totals_frame[(totals_frame['Measure'] == 'DENOMINATOR') & (totals_frame['Indicator_code'] == 'AST004')]
 ##num=totals_frame[(totals_frame['Measure'] == 'NUMERATOR') & (totals_frame['Indicator_code'] == 'AST007')]
 
-
-os.chdir("C:/Users/higginsr/Documents/Asthma SRO work/Combined QOF achievement/")
+#update directory
+os.chdir("C:/Users/*/Documents/Asthma SRO work/Combined QOF achievement/")
 totals_frame.to_csv('Combined_indicators_1819_1920_2021.csv',sep=',',header=True, index = False)
 
 

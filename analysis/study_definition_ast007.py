@@ -58,45 +58,45 @@ study = StudyDefinition(
     # Rule 1
 
     # Rule 1 logic
-        # Asthma review occurring within the last 12 months
-        ast_rev=patients.with_these_clinical_events(
-            codelist=rev_cod,
-            between=[
-                "first_day_of_month(index_date) - 11 months", "last_day_of_month(index_date)"],
-            returning="binary_flag",
-            include_date_of_match=True,
-            date_format="YYYY-MM-DD",
-            find_last_match_in_period=True,
-            return_expectations={
-                "date": {"earliest": "2018-03-01", "latest": "index_date"},
-                "incidence": 0.9
-            },
-        ),
+    # Asthma review occurring within the last 12 months
+    ast_rev=patients.with_these_clinical_events(
+        codelist=rev_cod,
+        between=[
+            "first_day_of_month(index_date) - 11 months", "last_day_of_month(index_date)"],
+        returning="binary_flag",
+        include_date_of_match=True,
+        date_format="YYYY-MM-DD",
+        find_last_match_in_period=True,
+        return_expectations={
+            "date": {"earliest": "2018-03-01", "latest": "index_date"},
+            "incidence": 0.9
+        },
+    ),
 
-        # Asthma written personalised asthma plan  on the same day and within the last 12 months
-        ast_writpastp=patients.with_these_clinical_events(
-            codelist=writpastp_cod,
-            between=["ast_rev_date - 1 day", "ast_rev_date"],
-            returning="binary_flag",
-            return_expectations={"incidence": 0.10},
-        ),
+    # Asthma written personalised asthma plan  on the same day and within the last 12 months
+    ast_writpastp=patients.with_these_clinical_events(
+        codelist=writpastp_cod,
+        between=["ast_rev_date - 1 day", "ast_rev_date"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.10},
+    ),
 
-        # Asthma control assessment within 1 month of asthma review date
-        astcontass_dat=patients.with_these_clinical_events(
-            codelist=astcontass_cod,
-            between=["ast_rev_date -  1 month", "ast_rev_date"],
-            returning="binary_flag",
-            return_expectations={"incidence": 0.10},
-        ),
+    # Asthma control assessment within 1 month of asthma review date
+    astcontass_dat=patients.with_these_clinical_events(
+        codelist=astcontass_cod,
+        between=["ast_rev_date -  1 month", "ast_rev_date"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.10},
+    ),
 
-        # Asthma exacerbations recorded within 1 month of asthma review date
-        astexac_dat=patients.with_these_clinical_events(
-            codelist=astexacb_cod,
-            between=["ast_rev_date - 1 month", "ast_rev_date"],
-            returning="binary_flag",
-            return_expectations={"incidence": 0.10},
-        ),
-    
+    # Asthma exacerbations recorded within 1 month of asthma review date
+    astexac_dat=patients.with_these_clinical_events(
+        codelist=astexacb_cod,
+        between=["ast_rev_date - 1 month", "ast_rev_date"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.10},
+    ),
+
     ast007_rule1=patients.satisfying(
         """
             ast_rev AND
@@ -248,38 +248,6 @@ measures = [
     Measure(
         id="event_rate",
         numerator="ast007_num",
-        denominator="ast007_denom",
-        group_by="population",
-        small_number_suppression=True
-    ),
-
-    Measure(
-        id="test_ast_rev_rate",
-        numerator="ast_rev",
-        denominator="ast007_denom",
-        group_by="population",
-        small_number_suppression=True
-    ),
-
-    Measure(
-        id="test_ast_writpastp_rate",
-        numerator="ast_writpastp",
-        denominator="ast007_denom",
-        group_by="population",
-        small_number_suppression=True
-    ),
-
-    Measure(
-        id="test_astcontass_dat_rate",
-        numerator="astcontass_dat",
-        denominator="ast007_denom",
-        group_by="population",
-        small_number_suppression=True
-    ),
-
-    Measure(
-        id="test_astexac_dat_rate",
-        numerator="astexac_dat",
         denominator="ast007_denom",
         group_by="population",
         small_number_suppression=True

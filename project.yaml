@@ -24,9 +24,9 @@ actions:
       highly_sensitive:
         cohort: output/input_ethnicity.csv
 
-  join_ethnicity_ast_reg:
+  join_ethnicity_ast007:
     run: >
-      cohort-joiner:v0.0.12 
+      cohort-joiner:v0.0.46 
         --lhs output/input_ast007*.csv
         --rhs output/input_ethnicity*.csv
         --output-dir output/joined
@@ -39,14 +39,14 @@ actions:
       run: cohortextractor:latest generate_measures 
         --study-definition study_definition_ast007 
         --output-dir=output/joined
-      needs: [generate_study_population_ast007, generate_study_population_ethnicity, join_ethnicity_ast_reg]
+      needs: [generate_study_population_ast007, generate_study_population_ethnicity, join_ethnicity_ast007]
       outputs:
         moderately_sensitive:
           measure_csv: output/joined/measure_*_rate.csv
 
   calculate_rates_ast007:
       run: python:latest python analysis/rate_calculations_ast007.py
-      needs: [join_ethnicity_ast_reg, generate_measures_ast007]
+      needs: [join_ethnicity_ast007, generate_measures_ast007]
       outputs:
         moderately_sensitive:
           tables: output/rate_table_*.csv
@@ -86,10 +86,3 @@ actions:
   #   outputs:
   #     moderately_sensitive:
   #       table_csv: output/test/test.csv
-      
-
-
-
-
-
-

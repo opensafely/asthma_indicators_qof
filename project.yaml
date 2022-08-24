@@ -28,7 +28,7 @@ actions:
     run: >
       cohort-joiner:v0.0.46 
         --lhs output/input_ast007*.csv
-        --rhs output/input_ethnicity*.csv
+        --rhs output/input_ethnicity.csv
         --output-dir output/joined
     needs: [generate_study_population_ethnicity, generate_study_population_ast007]
     outputs:

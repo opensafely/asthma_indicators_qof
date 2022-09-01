@@ -5,7 +5,7 @@ import glob
 
 import pandas
 
-MEASURE_FNAME_REGEX = re.compile(r"measure_ast_reg_(?P<id>\S+)\.csv")
+MEASURE_FNAME_REGEX = re.compile(r"measure_ast007_(?P<id>\S+)\.csv")
 
 
 def _check_for_practice(table):
@@ -83,7 +83,8 @@ def _round_table(measure_table, round_to):
         lambda x: custom_round(x, round_to) if pandas.notnull(x) else x
     )
     # recompute value
-    measure_table.value = measure_table.numerator / measure_table.denominator
+    measure_table.value = (measure_table.numerator /
+                           measure_table.denominator)
     return measure_table
 
 

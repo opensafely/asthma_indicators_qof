@@ -243,45 +243,69 @@ study = StudyDefinition(
 )
 
 # Create default measures
+# Create default measures
 measures = [
-
     Measure(
-        id="event_rate",
-        numerator="ast007_num",
-        denominator="ast007_denom",
-        group_by="population",
-        small_number_suppression=True
+        id="ast007_total_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["population"],
+        small_number_suppression=True,
     ),
-
     Measure(
-        id="practice_rate",
-        numerator="ast007_num",
-        denominator="ast007_denom",
+        id="ast007_practice_rate",
+        numerator="asthma",
+        denominator="population",
         group_by=["practice"],
         small_number_suppression=True,
     ),
-
-
+    Measure(
+        id="ast007_age_band_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["age_band"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ast007_sex_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["sex"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ast007_imd_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["imd"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ast007_region_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["region"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ast007_ethnicity_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["ethnicity"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ast007_learning_disability_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["learning_disability"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ast007_care_home_rate",
+        numerator="asthma",
+        denominator="population",
+        group_by=["care_home"],
+        small_number_suppression=True,
+    ),
 ]
-
-
-# Add demographics measures#
-# Q - does this need to be included.
-
-for d in demographics:
-
-    # if d == ["imd", "age_band"]:
-    #     apply_suppression = False
-
-    # else:
-    #     apply_suppression = True
-
-    m = Measure(
-        id=f'{d}_rate',
-        numerator="ast007_num",
-        denominator="ast007_denom",
-        group_by=[d],
-        small_number_suppression=True
-    )
-
-    measures.append(m)

@@ -62,14 +62,14 @@ actions:
           # Only output the single summary file
           measure_csv: output/joined/summary/measure_ast007.csv     
 
-  calculate_rates_ast007:
-      run: python:latest python analysis/rate_calculations_ast007.py
-      needs: [join_ethnicity_ast007, generate_measures_ast007]
-      outputs:
-        moderately_sensitive:
-          tables: output/rate_table_*.csv
-          plots: output/plot_*.png
-          decile_chart: output/decile_chart.png
+  # calculate_rates_ast007:
+  #     run: python:latest python analysis/rate_calculations_ast007.py
+  #     needs: [join_ethnicity_ast007, generate_measures_ast007]
+  #     outputs:
+  #       moderately_sensitive:
+  #         tables: output/rate_table_*.csv
+  #         plots: output/plot_*.png
+  #         decile_chart: output/decile_chart.png
 
   #############################
   # Plotting

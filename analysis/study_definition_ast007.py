@@ -249,7 +249,7 @@ measures = [
         id="ast007_total_rate",
         numerator="ast007_num",
         denominator="ast007_denom",
-        group_by=["ast007_denom"],
+        group_by=["population"],
         small_number_suppression=True,
     ),
     Measure(

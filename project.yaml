@@ -24,11 +24,11 @@ actions:
       highly_sensitive:
         cohort: output/input_ethnicity.csv
 
-  join_ethnicity_ast_reg:
+  join_ethnicity_ast007:
     run: >
-      cohort-joiner:v0.0.12 
+      cohort-joiner:v0.0.46 
         --lhs output/input_ast007*.csv
-        --rhs output/input_ethnicity*.csv
+        --rhs output/input_ethnicity.csv
         --output-dir output/joined
     needs: [generate_study_population_ethnicity, generate_study_population_ast007]
     outputs:
@@ -39,26 +39,89 @@ actions:
       run: cohortextractor:latest generate_measures 
         --study-definition study_definition_ast007 
         --output-dir=output/joined
-      needs: [generate_study_population_ast007, generate_study_population_ethnicity, join_ethnicity_ast_reg]
+      needs: [generate_study_population_ast007, generate_study_population_ethnicity, join_ethnicity_ast007]
       outputs:
         moderately_sensitive:
           measure_csv: output/joined/measure_*_rate.csv
 
-  calculate_rates_ast007:
-      run: python:latest python analysis/rate_calculations_ast007.py
-      needs: [join_ethnicity_ast_reg, generate_measures_ast007]
+  join_measures_ast007:
+      run: python:latest python analysis/join_and_round.py
+           --input-list output/joined/measure_ast007_total_rate.csv
+           --input-list output/joined/measure_ast007_age_band_rate.csv
+           --input-list output/joined/measure_ast007_care_home_rate.csv
+           --input-list output/joined/measure_ast007_ethnicity_rate.csv
+           --input-list output/joined/measure_ast007_imd_rate.csv
+           --input-list output/joined/measure_ast007_learning_disability_rate.csv
+           --input-list output/joined/measure_ast007_region_rate.csv
+           --input-list output/joined/measure_ast007_sex_rate.csv
+           --output-dir output/joined/summary
+           --output-name "measure_ast007.csv"
+      needs: [generate_measures_ast007]
       outputs:
         moderately_sensitive:
-          tables: output/rate_table_*.csv
-          plots: output/plot_*.png
-          decile_chart: output/decile_chart.png
+          # Only output the single summary file
+          measure_csv: output/joined/summary/measure_ast007.csv     
 
-  # generate_notebook_ast007:
-  #   run: jupyter:latest jupyter nbconvert /workspace/analysis/qof_notebook_ast007.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-  #   needs: [calculate_rates_ast007]
-  #   outputs:
-  #     moderately_sensitive:
-  #       notebook: output/qof_notebook_ast007.html
+  # calculate_rates_ast007:
+  #     run: python:latest python analysis/rate_calculations_ast007.py
+  #     needs: [join_ethnicity_ast007, generate_measures_ast007]
+  #     outputs:
+  #       moderately_sensitive:
+  #         tables: output/rate_table_*.csv
+  #         plots: output/plot_*.png
+  #         decile_chart: output/decile_chart.png
+
+  #############################
+  # Plotting
+  #############################
+  generate_qof_deciles_charts:
+    run: >
+            deciles-charts:v0.0.15
+            --input-files output/joined/measure_*_practice_rate.csv
+            --output-dir output/joined
+    config:
+      show_outer_percentiles: false
+      tables:
+        output: true
+      charts:
+        output: true
+    needs: [generate_measures_ast007]
+    outputs:
+      moderately_sensitive:
+        cohort: output/joined/deciles_*_*.*
+
+  generate_qof_groups:
+    run: >
+            python:latest python analysis/group_charts.py
+            --input-files output/joined/measure_ast007_*.csv
+            --output-dir output/joined
+            --date-lines "2019-03-31" "2020-03-31" "2021-03-31"
+            --scale "percentage"
+    needs: [generate_measures_ast007]
+    outputs:
+      moderately_sensitive:
+        cohort: output/joined/group_chart_*.png
+
+  generate_all_breakdowns:
+    run: >
+            python:latest python analysis/panel_plots.py
+            --input-file output/joined/summary/measure_ast007.csv
+            --measures-pattern "*_rate"
+            --output-dir output/joined/summary
+            --output-name "asthma_ast007_by_demographic_group"
+            --date-lines "2019-03-31" "2020-03-31" "2021-03-31"
+            --scale "percentage"
+    needs: [join_measures_ast007]
+    outputs:
+      moderately_sensitive:
+        cohort: output/joined/summary/asthma_ast007_by_demographic_group.png
+
+  generate_notebook_ast007:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/Table1_notebook.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
+    needs: [join_measures_ast007]
+    outputs:
+      moderately_sensitive:
+        notebook: output/Table1_notebook.html
 
 
 # Testing Asthma variables
@@ -86,10 +149,3 @@ actions:
   #   outputs:
   #     moderately_sensitive:
   #       table_csv: output/test/test.csv
-      
-
-
-
-
-
-

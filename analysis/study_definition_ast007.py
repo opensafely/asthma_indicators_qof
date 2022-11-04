@@ -187,8 +187,8 @@ study = StudyDefinition(
             returning="binary_flag",
             find_last_match_in_period=True,
             between=[
-                "astinvite_1_date + 6 days",
-                "last_day_of_month(index_date)",
+                "last_day_of_month(index_date)- 365 days",
+                "astinvite_1_date - 6 days",
             ],
         ),
     ),

@@ -88,7 +88,7 @@ actions:
     needs: [generate_measures_ast007]
     outputs:
       moderately_sensitive:
-        cohort: output/joined/deciles_*_*.*
+        cohort: output/joined/deciles_*_*.png
 
   generate_qof_groups:
     run: >

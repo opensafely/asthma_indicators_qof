@@ -10,7 +10,7 @@ actions:
   generate_study_population_ast007:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_ast007 
-      --index-date-range "2019-03-01 to 2023-08-31 by month" 
+      --index-date-range "2019-04-01 to 2023-09-30 by month" 
       --output-dir=output
     outputs:
       highly_sensitive:
@@ -26,7 +26,7 @@ actions:
 
   join_ethnicity_ast007:
     run: >
-      cohort-joiner:v0.0.46 
+      cohort-joiner:'v0.0.56'
         --lhs output/input_ast007*.csv
         --rhs output/input_ethnicity.csv
         --output-dir output/joined
@@ -95,7 +95,7 @@ actions:
             python:latest python analysis/group_charts.py
             --input-files output/joined/measure_ast007_*.csv
             --output-dir output/joined
-            --date-lines "2019-03-31" "2020-03-31" "2021-03-31"
+            --date-lines "2019-03-31" "2020-03-31" "2021-03-31" "2022-03-31" "2023-03-31"
             --scale "percentage"
     needs: [generate_measures_ast007]
     outputs:
@@ -109,7 +109,7 @@ actions:
             --measures-pattern "*_rate"
             --output-dir output/joined/summary
             --output-name "asthma_ast007_by_demographic_group"
-            --date-lines "2019-03-31" "2020-03-31" "2021-03-31"
+            --date-lines "2019-03-31" "2020-03-31" "2021-03-31" "2022-03-31" "2023-03-31"
             --scale "percentage"
     needs: [join_measures_ast007]
     outputs:

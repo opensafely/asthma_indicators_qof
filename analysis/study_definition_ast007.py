@@ -13,17 +13,12 @@ from cohortextractor import (
 )
 
 # Import codelists
-from codelists import *
+from codelists_ast_indicators import *
 
-from config import start_date, end_date, codelist_path, demographics
+from config import start_date, end_date, demographics
 
 from dict_ast_variables import ast_reg_variables
 from dict_demographic_variables import demographic_variables
-
-
-codelist_df = pd.read_csv(codelist_path)
-codelist_expectation_codes = codelist_df['code'].unique()
-
 
 # Specify study definition
 

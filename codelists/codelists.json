@@ -1,92 +1,92 @@
 {
   "files": {
-    "opensafely-ethnicity.csv": {
-      "id": "opensafely/ethnicity/2020-04-27",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
-      "downloaded_at": "2022-05-11 09:58:08.764738Z",
-      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
+    "opensafely-ethnicity-snomed-0removed.csv": {
+      "id": "opensafely/ethnicity-snomed-0removed/2e641f61",
+      "url": "https://www.opencodelists.org/codelist/opensafely/ethnicity-snomed-0removed/2e641f61/",
+      "downloaded_at": "2024-01-16 15:42:36.651639Z",
+      "sha": "8b849b5b785d80306e488d0109640c8c1d2da01b"
     },
     "nhsd-primary-care-domain-refsets-ld_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/ld_cod/20210127",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/ld_cod/20210127/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/ld_cod/20210127/",
       "downloaded_at": "2022-05-11 09:58:08.967392Z",
       "sha": "0c5bc3b050a55c2090e16932fd7364a0be775cb4"
     },
     "opensafely-structured-medication-review-nhs-england.csv": {
       "id": "opensafely/structured-medication-review-nhs-england/5459205f",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/structured-medication-review-nhs-england/5459205f/",
+      "url": "https://www.opencodelists.org/codelist/opensafely/structured-medication-review-nhs-england/5459205f/",
       "downloaded_at": "2022-05-11 09:58:09.488440Z",
       "sha": "7bd4843c423ef7618c6d8f27164dc0939f2c9a9a"
     },
     "nhsd-primary-care-domain-refsets-carehome_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/carehome_cod/5d2f363a",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/carehome_cod/5d2f363a/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/carehome_cod/5d2f363a/",
       "downloaded_at": "2022-05-11 09:58:09.698732Z",
       "sha": "11a75f8c271f6cd05276f49b038fbda8dfab77fe"
     },
     "nhsd-primary-care-domain-refsets-ast_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/ast_cod/4909d74a",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/ast_cod/4909d74a/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/ast_cod/4909d74a/",
       "downloaded_at": "2022-05-11 09:58:09.841853Z",
       "sha": "662adcbaa8823de22b7f56175420e454da595177"
     },
     "nhsd-primary-care-domain-refsets-astres_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/astres_cod/3f770244",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/astres_cod/3f770244/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/astres_cod/3f770244/",
       "downloaded_at": "2022-05-11 09:58:09.992190Z",
       "sha": "98e2d004cc77c059f3383e22b6d909c561439040"
     },
     "opensafely-asthma-related-drug-treatment-codes.csv": {
       "id": "opensafely/asthma-related-drug-treatment-codes/2c3f11a5",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-related-drug-treatment-codes/2c3f11a5/",
-      "downloaded_at": "2022-05-11 09:58:10.122175Z",
-      "sha": "7afa53b81d907bae23cb8d3d2cc950bfe625c373"
+      "url": "https://www.opencodelists.org/codelist/opensafely/asthma-related-drug-treatment-codes/2c3f11a5/",
+      "downloaded_at": "2024-01-16 15:42:37.719510Z",
+      "sha": "070ad57b4ff295296b34d4531466ae8e2840393c"
     },
     "nhsd-primary-care-domain-refsets-rev_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/rev_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/rev_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/rev_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:10.262784Z",
       "sha": "6f6f0221706d28a49d74f3c3edc5c627d2cc618c"
     },
     "nhsd-primary-care-domain-refsets-astcontass_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/astcontass_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/astcontass_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/astcontass_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:10.384856Z",
       "sha": "edae7dc6fad039f2fb9d49e3c84ee4265e18312e"
     },
     "nhsd-primary-care-domain-refsets-writpastp_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/writpastp_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/writpastp_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/writpastp_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:10.521522Z",
       "sha": "3d6733e5ff7e13df9279e60261b7b5545daa326e"
     },
     "nhsd-primary-care-domain-refsets-astexacb_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/astexacb_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/astexacb_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/astexacb_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:10.705570Z",
       "sha": "5e902f60294cbb014ecb7dbcd41917736c229ff7"
     },
     "nhsd-primary-care-domain-refsets-astpcapu_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/astpcapu_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/astpcapu_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/astpcapu_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:10.887722Z",
       "sha": "3801aa500009f47b655fa5d402d387fe76d3c4d3"
     },
     "nhsd-primary-care-domain-refsets-astmondec_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/astmondec_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/astmondec_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/astmondec_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:11.039900Z",
       "sha": "faac3422148aef9f72c126949a2e08704831a831"
     },
     "nhsd-primary-care-domain-refsets-astpcadec_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/astpcadec_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/astpcadec_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/astpcadec_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:11.215162Z",
       "sha": "a43361cd25814c1499cd8fbf8c0bdf264f653149"
     },
     "nhsd-primary-care-domain-refsets-astinvite_cod.csv": {
       "id": "nhsd-primary-care-domain-refsets/astinvite_cod/20200812",
-      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/astinvite_cod/20200812/",
+      "url": "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/astinvite_cod/20200812/",
       "downloaded_at": "2022-05-11 09:58:11.349808Z",
       "sha": "a71c2cbd3934d07bcdc0df77e3727452aaab015b"
     }

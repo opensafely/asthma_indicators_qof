@@ -5,25 +5,25 @@ library(here)
 library(gt)
 
 # Load data ----
-df_measures_ast_reg <- read_csv(here("output/joined/summary/measure_register.csv"))
+df_measures_ast007 <- read_csv(here("output/joined/summary/measure_ast007.csv"))
 #test
 # Filter data to only include dates needed for table 1
 # filter(date == "2022-03-01") only includes financial year 2021/22
 # filter(month(date) == 3) would include all march data, i.e., all NHS FYs
 # the second option only makes sense if you want to present multiple NHS FYs in
 # your table 1. This would require some code adaptations further down.
-df_measures_ast_reg_date <- df_measures_ast_reg %>%
-  filter(date == "2022-03-01")
+df_measures_ast007_date <- df_measures_ast007 %>%
+  filter(date == "2023-03-01")
 # filter(month(date) == 3)
 
 # Tidy up data ----
 # Here we add a new variable for the 'indicator' (not relevant at the moment but)
 # this would become important if you want to add more indicators. We also change
-# the date to a string that indicates the NHS financial year. This only works
+# the date to a string that indicates the NHS financial year. This only works++
 # correctly if we filter for month march before. Next, we change the groups and
 # categories to be more readable for the presentation in table 1.
-df_measures_ast_reg_tidy <- df_measures_ast_reg_date %>%
-  mutate(indicator = "ast005") %>%
+df_measures_ast007_tidy <- df_measures_ast007_date %>%
+  mutate(indicator = "ast007") %>%
   mutate(date = paste0("fy", str_sub(year(date) - 1, -2, -1), str_sub(year(date), -2, -1))) %>%
   mutate(
     group = case_when(
@@ -55,7 +55,7 @@ df_measures_ast_reg_tidy <- df_measures_ast_reg_date %>%
 # Some changes to the format of the data to make it easier to create the table
 # This is not really needed for only one year and one indicator but would be
 # important if we add more FYs or indicators.
-df_measures_ast_reg_tidy_tab <- df_measures_ast_reg_tidy %>%
+df_measures_ast007_tidy_tab <- df_measures_ast007_tidy %>%
   pivot_longer(cols = c("numerator", "denominator", "pct"), names_to = "variable") %>%
   pivot_wider(
     id_cols = c("category", "group"),
@@ -63,41 +63,40 @@ df_measures_ast_reg_tidy_tab <- df_measures_ast_reg_tidy %>%
     values_from = c("value")
   )
 
-# head(df_measures_ast_reg_tidy[df_measures_ast_reg_tidy$category == "Ethnicity"])
-# head(df_measures_ast_reg_tidy)
- head(df_measures_ast_reg_tidy_tab)
-# head(gt_tab1_ast005_fy2122)
+# head(df_measures_ast007_tidy[df_measures_ast007_tidy$category == "Ethnicity"])
+# head(df_measures_ast007_tidy)
+# head(df_measures_ast007_tidy_tab)
 
 
 # Create table ----
-gt_tab1_ast005_fy2122 <- df_measures_ast_reg_tidy_tab %>%
+gt_tab1_ast007_fy2223 <- df_measures_ast007_tidy_tab %>%
   gt(
     rowname_col = "group",
     groupname_col = "category"
   ) %>%
   row_group_order(groups = c("Population", "Sex", "Age band", "Ethnicity", "IMD", "Region", "Care home status", "Record of learning disability")) %>%
   tab_spanner(
-    label = "AST005 (Age >= 6)",
-    columns = c("ast005_fy2122_numerator", "ast005_fy2122_denominator", "ast005_fy2122_pct")
+    label = "AST007 (Age >= 6)",
+    columns = c("ast007_fy2223_numerator", "ast007_fy2223_denominator", "ast007_fy2223_pct")
   ) %>%
   cols_label(
-    ast005_fy2122_numerator = "Register",
-    ast005_fy2122_denominator = "List size",
-    ast005_fy2122_pct = "Prevalence"
+    ast007_fy2223_numerator = "Register",
+    ast007_fy2223_denominator = "List size",
+    ast007_fy2223_pct = "Prevalence"
   ) %>%
   fmt_number(
-    columns = c("ast005_fy2122_numerator", "ast005_fy2122_denominator"),
+    columns = c("ast007_fy2223_numerator", "ast007_fy2223_denominator"),
     decimals = 0,
     use_seps = TRUE
   ) %>%
   fmt_percent(
-    columns = c("ast005_fy2122_pct"),
+    columns = c("ast007_fy2223_pct"),
     decimals = 2,
     use_seps = TRUE
   ) %>%
   text_transform(
     locations = cells_body(
-      columns = c(ast005_fy2122_numerator, ast005_fy2122_denominator, ast005_fy2122_pct)),
+      columns = c(ast007_fy2223_numerator, ast007_fy2223_denominator, ast007_fy2223_pct)),
     fn = function(x){
       case_when(x == "NA" ~ "-",
                 TRUE ~ x)
@@ -105,4 +104,4 @@ gt_tab1_ast005_fy2122 <- df_measures_ast_reg_tidy_tab %>%
   )
 
 # Write table as html file ----
-gtsave(gt_tab1_ast005_fy2122, here("output", "joined", "summary", "tab1_ast005_fy2122.html"))
+gtsave(gt_tab1_ast007_fy2223, here("output", "joined", "summary", "tab1_ast007_fy2223.html"))

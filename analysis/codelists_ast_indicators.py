@@ -1,8 +1,4 @@
 from cohortextractor import codelist_from_csv, combine_codelists
-from config import codelist_path
-
-# Change the path of the codelist to your chosen codelist
-codelist = codelist_from_csv(codelist_path, system='snomed')
 
 ast_cod = codelist_from_csv(
     "codelists/nhsd-primary-care-domain-refsets-ast_cod.csv",
